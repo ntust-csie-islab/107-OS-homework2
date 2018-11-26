@@ -38,7 +38,7 @@
 <p>組長：B10515050、林八林<br>
 組員：B10515010、陳昀諒<br>
 組員：B10515048、柯名鴻<br>
-github: <a href="https://github.com/%5Btonyman1008%5D/xv6-public" target="_blank" rel="noopener">https://github.com/[tonyman1008]/xv6-public</a></p>
+github: <a href="https://github.com/tonyman1008/xv6-public" target="_blank" rel="noopener">https://github.com/tonyman1008/xv6-public</a></p>
 </blockquote><hr><h1 id="🤔-功能說明"><a class="anchor hidden-xs" href="#🤔-功能說明" title="🤔-功能說明"><span class="octicon octicon-link"></span></a>🤔 功能說明</h1><h2 id="Copy-On-Write"><a class="anchor hidden-xs" href="#Copy-On-Write" title="Copy-On-Write"><span class="octicon octicon-link"></span></a>Copy-On-Write</h2><p>Copy-on-write是一種電腦程式設計領域的最佳化策略，主要概念是，如果有多個callers同時request相同資源，例如存取memory、disk上的資料，它們會取得相同pointer指向同一個資源，當某個caller試圖"修改"資源的內容時，系統才會copy一份專用副本給caller，而其他caller所見到的最初的資源仍然保持不變。此作法主要的優點是如果caller沒有修改該資源，就不會建立多餘副本，因此多個caller做read操作時，僅共同使用一份資源。</p><hr><h1 id="😇-實作過程修改哪些檔案含圖片"><a class="anchor hidden-xs" href="#😇-實作過程修改哪些檔案含圖片" title="😇-實作過程修改哪些檔案含圖片"><span class="octicon octicon-link"></span></a>😇 實作過程(修改哪些檔案[含圖片])</h1><h2 id="實作流程"><a class="anchor hidden-xs" href="#實作流程" title="實作流程"><span class="octicon octicon-link"></span></a>實作流程</h2><ul>
 <li>利用共用資料夾將修改的檔案放入ubuntu</li>
 <li>開啟ubutu terminal，輸入：<br>
