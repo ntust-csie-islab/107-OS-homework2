@@ -39,9 +39,9 @@
 組員：B10404011、廖宥瑄<br>
 組員：隨班附讀Q223773、沈孟虹<br>
 github: <a href="https://github.com/za10204iii/xv6-public" target="_blank" rel="noopener">https://github.com/za10204iii/xv6-public</a></p>
-</blockquote><hr><h1 id="🤔-功能說明xv6-Page-Table"><a class="anchor hidden-xs" href="#🤔-功能說明xv6-Page-Table" title="🤔-功能說明xv6-Page-Table"><span class="octicon octicon-link"></span></a>🤔 功能說明(xv6 Page Table)</h1><h2 id="brk-and-sbrk0"><a class="anchor hidden-xs" href="#brk-and-sbrk0" title="brk-and-sbrk0"><span class="octicon octicon-link"></span></a>brk() and sbrk()</h2><ul>
+</blockquote><hr><h1 id="🤔-功能說明xv6-Page-Table"><a class="anchor hidden-xs" href="#🤔-功能說明xv6-Page-Table" title="🤔-功能說明xv6-Page-Table"><span class="octicon octicon-link"></span></a>🤔 功能說明(xv6 Page Table)</h1><h2 id="brk-and-sbrk"><a class="anchor hidden-xs" href="#brk-and-sbrk" title="brk-and-sbrk"><span class="octicon octicon-link"></span></a>brk() and sbrk()</h2><ul>
 <li>兩個 system call 皆可用來改變 program break 的位置，但使用上有些微的差異。</li>
-</ul><h3 id="brk0"><a class="anchor hidden-xs" href="#brk0" title="brk0"><span class="octicon octicon-link"></span></a>brk()</h3><blockquote>
+</ul><h3 id="brk"><a class="anchor hidden-xs" href="#brk" title="brk"><span class="octicon octicon-link"></span></a>brk()</h3><blockquote>
 <p>int brk(void *addr);<br>
 傳入一個 addr，為程序的資料區段之結束位置所在，將程序挪移到此 addr 的位置並實現分配與回收。</p>
 </blockquote><h3 id="sbrk"><a class="anchor hidden-xs" href="#sbrk" title="sbrk"><span class="octicon octicon-link"></span></a>sbrk()</h3><blockquote>
@@ -110,10 +110,10 @@ calloc.c<br>
 brk.c<br>
 sbrk.c<br>
 malloc.c</p>
-</blockquote><h2 id="brk-and-sbrk1"><a class="anchor hidden-xs" href="#brk-and-sbrk1" title="brk-and-sbrk1"><span class="octicon octicon-link"></span></a>brk() and sbrk()</h2><p>新增 deallocate 的機制</p><h3 id="brk0"><a class="anchor hidden-xs" href="#brk0" title="brk0"><span class="octicon octicon-link"></span></a>brk()</h3><p><img src="https://i.imgur.com/oX6izaW.png" alt=""></p><h3 id="srk"><a class="anchor hidden-xs" href="#srk" title="srk"><span class="octicon octicon-link"></span></a>srk()</h3><p><img src="https://i.imgur.com/N2ENe2S.png" alt=""></p><h2 id="cps1"><a class="anchor hidden-xs" href="#cps1" title="cps1"><span class="octicon octicon-link"></span></a>cps()</h2><p><img src="https://i.imgur.com/5i4QJ7v.png" alt=""></p><h2 id="calloc_0"><a class="anchor hidden-xs" href="#calloc_0" title="calloc_0"><span class="octicon octicon-link"></span></a>calloc_</h2><p>用system call 呼叫這個function<br>
+</blockquote><h2 id="brk-and-sbrk1"><a class="anchor hidden-xs" href="#brk-and-sbrk1" title="brk-and-sbrk1"><span class="octicon octicon-link"></span></a>brk() and sbrk()</h2><p>新增 deallocate 的機制</p><h3 id="brk1"><a class="anchor hidden-xs" href="#brk1" title="brk1"><span class="octicon octicon-link"></span></a>brk()</h3><p><img src="https://i.imgur.com/oX6izaW.png" alt=""></p><h3 id="srk"><a class="anchor hidden-xs" href="#srk" title="srk"><span class="octicon octicon-link"></span></a>srk()</h3><p><img src="https://i.imgur.com/N2ENe2S.png" alt=""></p><h2 id="cps1"><a class="anchor hidden-xs" href="#cps1" title="cps1"><span class="octicon octicon-link"></span></a>cps()</h2><p><img src="https://i.imgur.com/5i4QJ7v.png" alt=""></p><h2 id="calloc_"><a class="anchor hidden-xs" href="#calloc_" title="calloc_"><span class="octicon octicon-link"></span></a>calloc_</h2><p>用system call 呼叫這個function<br>
 <img src="https://i.imgur.com/DJhcm1l.png" alt=""></p><h2 id="ckalloc1"><a class="anchor hidden-xs" href="#ckalloc1" title="ckalloc1"><span class="octicon octicon-link"></span></a>ckalloc()</h2><p>將kalloc已ckalloc()取代<br>
 會檢查儲存空間是否在隔壁（連續）<br>
-<img src="https://i.imgur.com/xO1fVXn.png" alt=""></p><h2 id="realloc"><a class="anchor hidden-xs" href="#realloc" title="realloc"><span class="octicon octicon-link"></span></a>realloc()</h2><p>修改 memory 大小</p><hr><h1 id="🏃-Demo畫面"><a class="anchor hidden-xs" href="#🏃-Demo畫面" title="🏃-Demo畫面"><span class="octicon octicon-link"></span></a>🏃 Demo畫面</h1><h2 id="brk1"><a class="anchor hidden-xs" href="#brk1" title="brk1"><span class="octicon octicon-link"></span></a>brk()</h2><p><img src="https://i.imgur.com/tm1l48c.png" alt=""></p><h2 id="sbrk1"><a class="anchor hidden-xs" href="#sbrk1" title="sbrk1"><span class="octicon octicon-link"></span></a>sbrk()</h2><p><img src="https://i.imgur.com/tSNoYdx.png" alt=""></p><h2 id="cps1"><a class="anchor hidden-xs" href="#cps1" title="cps1"><span class="octicon octicon-link"></span></a>cps()</h2><p><img src="https://i.imgur.com/OUguTGL.png" alt=""></p><h2 id="calloc1"><a class="anchor hidden-xs" href="#calloc1" title="calloc1"><span class="octicon octicon-link"></span></a>calloc()</h2><p>command line:<br>
+<img src="https://i.imgur.com/xO1fVXn.png" alt=""></p><h2 id="realloc"><a class="anchor hidden-xs" href="#realloc" title="realloc"><span class="octicon octicon-link"></span></a>realloc()</h2><p>修改 memory 大小</p><hr><h1 id="🏃-Demo畫面"><a class="anchor hidden-xs" href="#🏃-Demo畫面" title="🏃-Demo畫面"><span class="octicon octicon-link"></span></a>🏃 Demo畫面</h1><h2 id="brk2"><a class="anchor hidden-xs" href="#brk2" title="brk2"><span class="octicon octicon-link"></span></a>brk()</h2><p><img src="https://i.imgur.com/tm1l48c.png" alt=""></p><h2 id="sbrk1"><a class="anchor hidden-xs" href="#sbrk1" title="sbrk1"><span class="octicon octicon-link"></span></a>sbrk()</h2><p><img src="https://i.imgur.com/tSNoYdx.png" alt=""></p><h2 id="cps2"><a class="anchor hidden-xs" href="#cps2" title="cps2"><span class="octicon octicon-link"></span></a>cps()</h2><p><img src="https://i.imgur.com/OUguTGL.png" alt=""></p><h2 id="calloc1"><a class="anchor hidden-xs" href="#calloc1" title="calloc1"><span class="octicon octicon-link"></span></a>calloc()</h2><p>command line:<br>
 <img src="https://i.imgur.com/U1Kdmtn.png" alt=""><br>
 result:<br>
 <img src="https://i.imgur.com/p6OM741.png" alt=""></p><h2 id="realloc1"><a class="anchor hidden-xs" href="#realloc1" title="realloc1"><span class="octicon octicon-link"></span></a>realloc()</h2><p><img src="https://i.imgur.com/IwMQ5Z6.png" alt=""></p><hr><h1 id="🐻-預期成效、情境說明（怎麼用、誰用）"><a class="anchor hidden-xs" href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻-預期成效、情境說明（怎麼用、誰用）"><span class="octicon octicon-link"></span></a>🐻 預期成效、情境說明（怎麼用、誰用）</h1><p>預計在第三次作業中加入 lazy allocation 以及 three-level page table 的功能，並讓 user 依據當下情境自由選擇要使用何種機制，進而達到提升效率的功用。</p><hr><h1 id="👨‍👦‍👦-組員分工"><a class="anchor hidden-xs" href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦-組員分工"><span class="octicon octicon-link"></span></a>👨‍👦‍👦 組員分工</h1><p>陳威政: brk(), sbrk()<br>
@@ -129,17 +129,17 @@ result:<br>
                 <div class="toc"><ul class="nav">
 <li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
 <li class=""><a href="#🤔-功能說明xv6-Page-Table" title="🤔 功能說明(xv6 Page Table)">🤔 功能說明(xv6 Page Table)</a><ul class="nav">
-<li class=""><a href="#brk-and-sbrk0" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
-<li><a href="#brk0" title="brk()">brk()</a></li>
+<li class=""><a href="#brk-and-sbrk" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
+<li class=""><a href="#brk" title="brk()">brk()</a></li>
 <li class=""><a href="#sbrk" title="sbrk()">sbrk()</a></li>
 </ul>
 </li>
 <li class=""><a href="#cps" title="cps">cps</a></li>
 <li class=""><a href="#calloc-and-ckalloc" title="calloc() and ckalloc()">calloc() and ckalloc()</a></li>
-<li><a href="#malloc-and-realloc" title="malloc() and realloc()">malloc() and realloc()</a><ul class="nav">
-<li><a href="#malloc-vs-calloc" title="malloc() vs calloc()">malloc() vs calloc()</a></li>
-<li><a href="#malloc-vs-realloc" title="malloc() vs realloc()">malloc() vs realloc()</a></li>
-<li><a href="#urealloc" title="urealloc()">urealloc()</a></li>
+<li class=""><a href="#malloc-and-realloc" title="malloc() and realloc()">malloc() and realloc()</a><ul class="nav">
+<li class=""><a href="#malloc-vs-calloc" title="malloc() vs calloc()">malloc() vs calloc()</a></li>
+<li class=""><a href="#malloc-vs-realloc" title="malloc() vs realloc()">malloc() vs realloc()</a></li>
+<li class=""><a href="#urealloc" title="urealloc()">urealloc()</a></li>
 </ul>
 </li>
 <li class=""><a href="#知識補充" title="知識補充:">知識補充:</a></li>
@@ -153,28 +153,28 @@ result:<br>
 </li>
 <li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
 <li class=""><a href="#modify" title="modify">modify</a></li>
-<li><a href="#add" title="add">add</a></li>
-<li><a href="#brk-and-sbrk1" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
-<li><a href="#brk0" title="brk()">brk()</a></li>
-<li><a href="#srk" title="srk()">srk()</a></li>
+<li class=""><a href="#add" title="add">add</a></li>
+<li class=""><a href="#brk-and-sbrk1" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
+<li class=""><a href="#brk1" title="brk()">brk()</a></li>
+<li class=""><a href="#srk" title="srk()">srk()</a></li>
 </ul>
 </li>
-<li><a href="#cps1" title="cps()">cps()</a></li>
-<li><a href="#calloc_0" title="calloc_">calloc_</a></li>
-<li><a href="#ckalloc1" title="ckalloc()">ckalloc()</a></li>
-<li><a href="#realloc" title="realloc()">realloc()</a></li>
+<li class=""><a href="#cps1" title="cps()">cps()</a></li>
+<li class=""><a href="#calloc_" title="calloc_">calloc_</a></li>
+<li class=""><a href="#ckalloc1" title="ckalloc()">ckalloc()</a></li>
+<li class=""><a href="#realloc" title="realloc()">realloc()</a></li>
 </ul>
 </li>
-<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a><ul class="nav">
-<li><a href="#brk1" title="brk()">brk()</a></li>
+<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a><ul class="nav">
+<li class=""><a href="#brk2" title="brk()">brk()</a></li>
 <li><a href="#sbrk1" title="sbrk()">sbrk()</a></li>
-<li><a href="#cps1" title="cps()">cps()</a></li>
-<li><a href="#calloc1" title="calloc()">calloc()</a></li>
+<li class=""><a href="#cps2" title="cps()">cps()</a></li>
+<li class=""><a href="#calloc1" title="calloc()">calloc()</a></li>
 <li><a href="#realloc1" title="realloc()">realloc()</a></li>
 </ul>
 </li>
 <li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
-<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
             </ul>
@@ -184,17 +184,17 @@ result:<br>
         <div class="toc"><ul class="nav">
 <li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
 <li class=""><a href="#🤔-功能說明xv6-Page-Table" title="🤔 功能說明(xv6 Page Table)">🤔 功能說明(xv6 Page Table)</a><ul class="nav">
-<li class=""><a href="#brk-and-sbrk0" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
-<li><a href="#brk0" title="brk()">brk()</a></li>
+<li class=""><a href="#brk-and-sbrk" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
+<li class=""><a href="#brk" title="brk()">brk()</a></li>
 <li class=""><a href="#sbrk" title="sbrk()">sbrk()</a></li>
 </ul>
 </li>
 <li class=""><a href="#cps" title="cps">cps</a></li>
 <li class=""><a href="#calloc-and-ckalloc" title="calloc() and ckalloc()">calloc() and ckalloc()</a></li>
-<li><a href="#malloc-and-realloc" title="malloc() and realloc()">malloc() and realloc()</a><ul class="nav">
-<li><a href="#malloc-vs-calloc" title="malloc() vs calloc()">malloc() vs calloc()</a></li>
-<li><a href="#malloc-vs-realloc" title="malloc() vs realloc()">malloc() vs realloc()</a></li>
-<li><a href="#urealloc" title="urealloc()">urealloc()</a></li>
+<li class=""><a href="#malloc-and-realloc" title="malloc() and realloc()">malloc() and realloc()</a><ul class="nav">
+<li class=""><a href="#malloc-vs-calloc" title="malloc() vs calloc()">malloc() vs calloc()</a></li>
+<li class=""><a href="#malloc-vs-realloc" title="malloc() vs realloc()">malloc() vs realloc()</a></li>
+<li class=""><a href="#urealloc" title="urealloc()">urealloc()</a></li>
 </ul>
 </li>
 <li class=""><a href="#知識補充" title="知識補充:">知識補充:</a></li>
@@ -208,28 +208,28 @@ result:<br>
 </li>
 <li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
 <li class=""><a href="#modify" title="modify">modify</a></li>
-<li><a href="#add" title="add">add</a></li>
-<li><a href="#brk-and-sbrk1" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
-<li><a href="#brk0" title="brk()">brk()</a></li>
-<li><a href="#srk" title="srk()">srk()</a></li>
+<li class=""><a href="#add" title="add">add</a></li>
+<li class=""><a href="#brk-and-sbrk1" title="brk() and sbrk()">brk() and sbrk()</a><ul class="nav">
+<li class=""><a href="#brk1" title="brk()">brk()</a></li>
+<li class=""><a href="#srk" title="srk()">srk()</a></li>
 </ul>
 </li>
-<li><a href="#cps1" title="cps()">cps()</a></li>
-<li><a href="#calloc_0" title="calloc_">calloc_</a></li>
-<li><a href="#ckalloc1" title="ckalloc()">ckalloc()</a></li>
-<li><a href="#realloc" title="realloc()">realloc()</a></li>
+<li class=""><a href="#cps1" title="cps()">cps()</a></li>
+<li class=""><a href="#calloc_" title="calloc_">calloc_</a></li>
+<li class=""><a href="#ckalloc1" title="ckalloc()">ckalloc()</a></li>
+<li class=""><a href="#realloc" title="realloc()">realloc()</a></li>
 </ul>
 </li>
-<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a><ul class="nav">
-<li><a href="#brk1" title="brk()">brk()</a></li>
+<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a><ul class="nav">
+<li class=""><a href="#brk2" title="brk()">brk()</a></li>
 <li><a href="#sbrk1" title="sbrk()">sbrk()</a></li>
-<li><a href="#cps1" title="cps()">cps()</a></li>
-<li><a href="#calloc1" title="calloc()">calloc()</a></li>
+<li class=""><a href="#cps2" title="cps()">cps()</a></li>
+<li class=""><a href="#calloc1" title="calloc()">calloc()</a></li>
 <li><a href="#realloc1" title="realloc()">realloc()</a></li>
 </ul>
 </li>
 <li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
-<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
