@@ -1,1 +1,633 @@
-homework not found!!
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        107 OS homework 2 實作System Call - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:contain}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" style="position: relative;"><h1 id="107-OS-homework-2-實作System-Call"><a class="anchor hidden-xs" href="#107-OS-homework-2-實作System-Call" title="107-OS-homework-2-實作System-Call"><span class="octicon octicon-link"></span></a>107 OS homework 2 實作System Call</h1><p>組員：<br>
+王潔 B10313054<br>
+彭傑 B10530002<br>
+陳敬傑 B10530312</p><h1 id="🤔-功能說明"><a class="anchor hidden-xs" href="#🤔-功能說明" title="🤔-功能說明"><span class="octicon octicon-link"></span></a>🤔 功能說明</h1><hr><ul>
+<li>xv6缺少把page swap到disk的的功能，所有的process都在main memory執行。有鑑於此，我們希望置入swap的機制。swap的機制可以一定程度上增加degree of multiprogramming的能力，提高cpu的使用率。但是過度的multiprograming又會導致thrashing（如圖）。<br>
+<br></li>
+</ul><p><img src="https://i.imgur.com/ziPWjij.png" alt="alt text" title="圖：thrashing"><br>
+<br><br>
+<br></p><ul>
+<li>為此，我們使用了近似於LRU（如圖）的page replacement 算法NFU來控制victim page的選擇。使得cpu的運行不僅效率高而且穩定。<br>
+<br><br>
+<img src="https://i.imgur.com/xWQn72l.png" alt="alt text" title="圖：LRU"></li>
+</ul><br><ul>
+<li>
+<p>進一步對我們的功能進行說明。<br>
+在最底層我們建立swap的功能，當物理內存不足時，拿出部分硬盤空間當SWAP分區（虛擬成內存）使用(如圖)。而NFU（not frequently used）算法可以記錄page的使用頻率，將count最少的page視為victim page，swap功能會把這個page swap到disk，從而讓新進來的process有機會運行，解決內存容量不足的問題。當swap分區中的page又被acquire的時候，會從分區中重新將page swap in。<br>
+<br><br>
+<img src="https://i.imgur.com/eM60x3t.png" alt="alt text" title="圖：swap"><br>
+<br></p>
+</li>
+<li>
+<p><mark>綜上所述，有swap功能的xv6可以把外部的disk 當成main memory使用，從而增加多工的程度，而NFU是一種對swap的控制。這是我們希望達成的功能。</mark><br>
+<br><br>
+<br></p>
+</li>
+</ul><h1 id="😇-實作過程修改哪些檔案含圖片"><a class="anchor hidden-xs" href="#😇-實作過程修改哪些檔案含圖片" title="😇-實作過程修改哪些檔案含圖片"><span class="octicon octicon-link"></span></a>😇 實作過程(修改哪些檔案[含圖片])</h1><hr><h2 id="實作流程概述"><a class="anchor hidden-xs" href="#實作流程概述" title="實作流程概述"><span class="octicon octicon-link"></span></a>實作流程概述</h2><h3 id="一、swap框架"><a class="anchor hidden-xs" href="#一、swap框架" title="一、swap框架"><span class="octicon octicon-link"></span></a>一、swap框架</h3><ul>
+<li>
+<p>首先，我們為xv6置入一個paging framework，此framework具有兩個功能：</p>
+<ol>
+<li>使得xv6能夠把page從main memory取出，並儲存在disk（swap區域）。</li>
+<li>當swap區域中的page再次被acquire的時候，xv6能夠把page從disk（swap區域）取出，並存回main memory</li>
+</ol>
+</li>
+<li>
+<p>每個process管理自己的page的swap in ，swap out，為了方便實作，我們使用了file system 提供的interface，為每一個process建立一個file作為它的swap區域。<br>
+<br></p>
+</li>
+</ul><h4 id="Ifile框架：creatingwritingreadingdeleting-swap-file"><a class="anchor hidden-xs" href="#Ifile框架：creatingwritingreadingdeleting-swap-file" title="Ifile框架：creatingwritingreadingdeleting-swap-file"><span class="octicon octicon-link"></span></a>I.file框架：creating/writing/reading/deleting swap file</h4><ul>
+<li>主要修改檔案：fs.c</li>
+<li>為proc struc （proc.h）新增一個參數 swapFile，此參數會用一個pointer指向swap out的目的地file</li>
+<li>增加interface：</li>
+</ul><ol>
+<li>
+<p>int createSwapFile(struct proc *p)<br>
+新建一個swap file<br>
+<img src="https://i.imgur.com/9UrPnNw.png" alt=""></p>
+</li>
+<li>
+<p>int readFromSwapFile(struct proc <em>p, char</em> buffer, uint placeOnFile, uint size)<br>
+從swap file裡讀size bytes<br>
+<img src="https://i.imgur.com/twb7TZM.png" alt=""></p>
+</li>
+<li>
+<p>int writeToSwapFile(struct proc <em>p, char</em> buffer, uint placeOnFile, uint size)<br>
+從buffer寫到swapfile裡<br>
+<img src="https://i.imgur.com/BfD7plZ.png" alt=""></p>
+</li>
+<li>
+<p>Int removeSwapFile(struct proc *p)<br>
+刪除swap file<br>
+<img src="https://i.imgur.com/gZZPkKb.png" alt=""></p>
+</li>
+</ol><br><p>此外，swap out之後應修改標記：</p><ul>
+<li>#define PTE_PG 0x200 記錄這個page是不是被swap out</li>
+<li>把valid-invalid bit重置，表示此page已不在main memory中(如圖)。<br>
+<br><br>
+<img src="https://i.imgur.com/kgcyRgi.png" alt="alt text" title="valid-invalid bit"><br>
+<br><br>
+<br></li>
+</ul><h4 id="IIIswap-in"><a class="anchor hidden-xs" href="#IIIswap-in" title="IIIswap-in"><span class="octicon octicon-link"></span></a>III.swap in</h4><ul>
+<li>重新把page從file中取回，流程如下：<br>
+<br><br>
+<img src="https://i.imgur.com/APUpVCL.png" alt="alt text" title="圖：page fault"><br>
+<br></li>
+</ul><p>1.執行中的process需要之前被swap out的page<br>
+2.產生一個trap,確認是page fault<br>
+3.使用寄存器去disk找這個page<br>
+4.分配一塊記憶體<br>
+5.從找到的file裡把data map回來pagetable<br>
+6.回到user mode，process重新執行剛剛失敗的指令。<br>
+7.檢查是否超過MAX_TOTAL_PAGES，如果超過了，其他的page需要被視為victim page swap out 為此swap in 留出空間（如圖）<br>
+<br><br>
+<br><br>
+<img src="https://i.imgur.com/zCLFjgj.png" alt="alt text" title="圖：page replacement"><br>
+<br><br>
+<br></p><h3 id="二、控制swap的執行"><a class="anchor hidden-xs" href="#二、控制swap的執行" title="二、控制swap的執行"><span class="octicon octicon-link"></span></a>二、控制swap的執行</h3><br><p>面對選擇victim page的問題，我們使用的Page replacement algorithms是NFU，設置一個reference bit來記錄age，藉由timer interrupt來更新資料結構。<br>
+<br></p><h3 id="三、測試和執行"><a class="anchor hidden-xs" href="#三、測試和執行" title="三、測試和執行"><span class="octicon octicon-link"></span></a>三、測試和執行</h3><br><p>修改xv6原本就有的viewer，加印出：<br>
+1.每個process得到記憶體的page數量<br>
+2.目前已經被趕走的page數量<br>
+3.page fault發生的次數<br>
+4.page swap out的次數<br>
+5.freepage佔總數的比例<br>
+<img src="https://i.imgur.com/KyZWjgV.png" alt=""><br>
+<br></p><h2 id="修改新增檔案"><a class="anchor hidden-xs" href="#修改新增檔案" title="修改新增檔案"><span class="octicon octicon-link"></span></a>修改/新增檔案</h2><h4 id="Makefile"><a class="anchor hidden-xs" href="#Makefile" title="Makefile"><span class="octicon octicon-link"></span></a>Makefile</h4><pre><code>ifndef SELECTION
+SELECTION := NFU
+endif
+</code></pre><pre><code>CFLAGS += -D $(SELECTION)
+</code></pre><h4 id="defsh"><a class="anchor hidden-xs" href="#defsh" title="defsh"><span class="octicon octicon-link"></span></a>defs.h</h4><pre><code>int				createSwapFile(struct proc* p);
+int				readFromSwapFile(struct proc * p, char* buffer, uint placeOnFile, uint size);
+int				writeToSwapFile(struct proc* p, char* buffer, uint placeOnFile, uint size);
+int				removeSwapFile(struct proc* p);
+</code></pre><pre><code>// sysfile
+struct inode*	create(char *path, short type, short major, short minor);
+int				isdirempty(struct inode *dp);
+</code></pre><pre><code>void            swapPages(uint);
+</code></pre><h4 id="fsc"><a class="anchor hidden-xs" href="#fsc" title="fsc"><span class="octicon octicon-link"></span></a>fs.c</h4><pre><code>#include "fcntl.h"
+#define DIGITS 14
+ char* itoa(int i, char b[]){
+    char const digit[] = "0123456789";
+    char* p = b;
+    if(i&lt;0){
+        *p++ = '-';
+        i *= -1;
+    }
+    int shifter = i;
+    do{ //Move to where representation ends
+        ++p;
+        shifter = shifter/10;
+    }while(shifter);
+    *p = '\0';
+    do{ //Move back, inserting digits as u go
+        *--p = digit[i%10];
+        i = i/10;
+    }while(i);
+    return b;
+}
+//remove swap file of proc p;
+int
+removeSwapFile(struct proc* p)
+{
+	//path of proccess
+	char path[DIGITS];
+	memmove(path,"/.swap", 6);
+	itoa(p-&gt;pid, path+ 6);
+ 	struct inode *ip, *dp;
+	struct dirent de;
+	char name[DIRSIZ];
+	uint off;
+ 	begin_op();
+	if((dp = nameiparent(path, name)) == 0)
+	{
+		end_op();
+		return -1;
+	}
+ 	ilock(dp);
+ 	  // Cannot unlink "." or "..".
+	if(namecmp(name, ".") == 0 || namecmp(name, "..") == 0)
+	   goto bad;
+ 	if((ip = dirlookup(dp, name, &amp;off)) == 0)
+		goto bad;
+	ilock(ip);
+ 	if(ip-&gt;nlink &lt; 1)
+		panic("unlink: nlink &lt; 1");
+	if(ip-&gt;type == T_DIR &amp;&amp; !isdirempty(ip)){
+		iunlockput(ip);
+		goto bad;
+	}
+ 	memset(&amp;de, 0, sizeof(de));
+	if(writei(dp, (char*)&amp;de, off, sizeof(de)) != sizeof(de))
+		panic("unlink: writei");
+	if(ip-&gt;type == T_DIR){
+		dp-&gt;nlink--;
+		iupdate(dp);
+	}
+	iunlockput(dp);
+ 	ip-&gt;nlink--;
+	iupdate(ip);
+	iunlockput(ip);
+ 	end_op();
+ 	return 0;
+ 	bad:
+		iunlockput(dp);
+		end_op();
+		return -1;
+ }
+ //return 0 on success
+int
+createSwapFile(struct proc* p)
+{
+ 	char path[DIGITS];
+	memmove(path,"/.swap", 6);
+	itoa(p-&gt;pid, path+ 6);
+     begin_op();
+    struct inode * in = create(path, T_FILE, 0, 0);
+	iunlock(in);
+ 	p-&gt;swapFile = filealloc();
+	if (p-&gt;swapFile == 0)
+		panic("no slot for files on /store");
+ 	p-&gt;swapFile-&gt;ip = in;
+	p-&gt;swapFile-&gt;type = FD_INODE;
+	p-&gt;swapFile-&gt;off = 0;
+	p-&gt;swapFile-&gt;readable = O_WRONLY;
+	p-&gt;swapFile-&gt;writable = O_RDWR;
+    end_op();
+     return 0;
+}
+ //return as sys_write (-1 when error)
+int
+writeToSwapFile(struct proc * p, char* buffer, uint placeOnFile, uint size)
+{
+	p-&gt;swapFile-&gt;off = placeOnFile;
+ 	return filewrite(p-&gt;swapFile, buffer, size);
+ }
+ //return as sys_read (-1 when error)
+int
+readFromSwapFile(struct proc * p, char* buffer, uint placeOnFile, uint size)
+{
+	p-&gt;swapFile-&gt;off = placeOnFile;
+ 	return fileread(p-&gt;swapFile, buffer,  size);
+}
+</code></pre><h4 id="execc"><a class="anchor hidden-xs" href="#execc" title="execc"><span class="octicon octicon-link"></span></a>exec.c</h4><pre><code>// TODO delete cprintf("exec pid %d\n", proc-&gt;pid);
+  proc-&gt;pagesNo = 0;
+</code></pre><pre><code>// a swap file has been created in fork(), but its content was of the
+  // parent process, and is no longer relevant.
+  removeSwapFile(proc);
+  createSwapFile(proc);
+</code></pre><h4 id="filec"><a class="anchor hidden-xs" href="#filec" title="filec"><span class="octicon octicon-link"></span></a>file.c</h4><pre><code>if (removeSwapFile(proc) != 0)
+    panic("exit: error deleting swap file");
+</code></pre><h4 id="kallocc"><a class="anchor hidden-xs" href="#kallocc" title="kallocc"><span class="octicon octicon-link"></span></a>kalloc.c</h4><pre><code>#include "kalloc.h"
+ struct physPagesCounts physPagesCounts;
+</code></pre><pre><code>void
+ kinit1(void *vstart, void *vend)
+ {
+  initlock(&amp;kmem.lock, "kmem");
+  kmem.use_lock = 0;
+  freerange(vstart, vend);
+   // physPagesCounts is a struct defined in kalloc.h to hold info needed to cumpute percent of free physcal pages
+  // all physical pages allocated to the kernel's allocator's "freelist" are allocated in kinit1 &amp; kinit2
+  // here we update the # of pages inserted to free list in kinit1
+  physPagesCounts.initPagesNo = (PGROUNDDOWN((uint)vend) - PGROUNDUP((uint)vstart)) / PGSIZE;
+  cprintf("physPagesCounts-&gt;initPagesNo = %d\n", physPagesCounts.initPagesNo );
+  //cprintf("physPagesCounts-&gt;currentFreePagesNo = %d\n", physPagesCounts.currentFreePagesNo );
+}
+</code></pre><pre><code>void
+kinit2(void *vstart, void *vend)
+{
+  freerange(vstart, vend);
+  // update the # of pages inserted to free list in kinit2
+  physPagesCounts.initPagesNo += (PGROUNDDOWN((uint)vend) - PGROUNDUP((uint)vstart)) / PGSIZE;
+  
+  //cprintf("physPagesCounts-&gt;initPagesNo = %d\n", physPagesCounts.initPagesNo );
+  //cprintf("physPagesCounts-&gt;currentFreePagesNo = %d\n", physPagesCounts.currentFreePagesNo );
+  //cprintf("percent of free physical pages: %d\n", physPagesCounts.currentFreePagesNo * 100 / physPagesCounts.initPagesNo);
+   kmem.use_lock = 1;
+}
+</code></pre><pre><code>physPagesCounts.currentFreePagesNo++;
+</code></pre><pre><code> if(r){
+    kmem.freelist = r-&gt;next;
+    physPagesCounts.currentFreePagesNo--;
+  }
+</code></pre><h4 id="kalloch"><a class="anchor hidden-xs" href="#kalloch" title="kalloch"><span class="octicon octicon-link"></span></a>kalloc.h</h4><pre><code>// struct for keeping track of the percent of free physical pages
+struct physPagesCounts{
+  uint initPagesNo;
+  uint currentFreePagesNo;
+};
+
+extern struct physPagesCounts physPagesCounts;
+</code></pre><h4 id="mmuh"><a class="anchor hidden-xs" href="#mmuh" title="mmuh"><span class="octicon octicon-link"></span></a>mmu.h</h4><pre><code>#define PTE_PG          0x200   // Paged out to secondary storage
+</code></pre><h4 id="procc"><a class="anchor hidden-xs" href="#procc" title="procc"><span class="octicon octicon-link"></span></a>proc.c</h4><pre><code>#include "kalloc.h"
+int i;
+
+</code></pre><h4 id="proch"><a class="anchor hidden-xs" href="#proch" title="proch"><span class="octicon octicon-link"></span></a>proc.h</h4><pre><code>#define MAX_PSYC_PAGES 15
+#define MAX_TOTAL_PAGES 30
+</code></pre><pre><code>//Swap file. must initiate with create swap file
+  struct file *swapFile;			//page file
+  
+  struct pgdesc {
+  char inswapfile;
+  char used;
+  uint swaploc;
+  uint virtpageno;
+};
+struct proc {
+   int pagesNo;
+    int totalPageFaultCount;
+    int totalPagedOutCount;
+  struct pgdesc pages[MAX_TOTAL_PAGES];
+};
+</code></pre><pre><code>// initialize process's page data
+  for (i = 0; i &lt; MAX_TOTAL_PAGES; i++) {
+    p-&gt;pages[i].inswapfile = 0;
+    p-&gt;pages[i].swaploc = 0;
+  }
+  p-&gt;pagesNo = 0;
+</code></pre><pre><code>np-&gt;pagesNo = proc-&gt;pagesNo;
+</code></pre><pre><code>// // initialize process's page data
+  // for (i = 0; i &lt; MAX_TOTAL_PAGES; i++) {
+  //   np-&gt;pages[i].inswapfile = proc-&gt;pages[i].inswapfile;
+  //   np-&gt;pages[i].swaploc = proc-&gt;pages[i].swaploc;
+  // }
+  // np-&gt;pagesNo = 0;
+  createSwapFile(np);
+  char buf[PGSIZE / 2] = "";
+  int offset = 0;
+  int nread = 0;
+  // pid=2 is sh, so the parent, init (pid=1) has no swap file to copy.
+  // read the parent's swap file in chunks of size PGDIR/2, otherwise for some
+  // reason, you get "panic acquire" if buf is ~4000 bytes
+  if (np-&gt;pid &gt; 2) {
+    while ((nread = readFromSwapFile(proc, buf, offset, PGSIZE / 2)) != 0) {
+      if (writeToSwapFile(np, buf, offset, nread) == -1)
+        panic("fork: error while writing the parent's swap file to the child");
+      offset += nread;
+    }
+  }
+
+</code></pre><h4 id="shc"><a class="anchor hidden-xs" href="#shc" title="shc"><span class="octicon octicon-link"></span></a>sh.c</h4><pre><code>#ifdef NFU
+  printf(1, "Paging policy: NFU\n");
+  #endif
+</code></pre><h4 id="trapc"><a class="anchor hidden-xs" href="#trapc" title="trapc"><span class="octicon octicon-link"></span></a>trap.c</h4><pre><code>void
+trap(struct trapframe *tf)
+{
+  uint addr;
+  uint *vaddr;}
+</code></pre><pre><code>case T_PGFLT:
+    addr = rcr2();
+    vaddr = (uint *)P2V_WO(proc-&gt;pgdir[PDX(addr)]);
+    if ((int)vaddr &amp; PTE_P)
+      if (vaddr[PTX(addr)] &amp; PTE_PG &amp;&amp; !(vaddr[PTX(addr)] &amp; PTE_P)) {
+        cprintf("page is in swap file, pid %d, va %p", proc-&gt;pid, addr);
+        swapPages(addr &amp; ~0xfff);
+        proc-&gt;totalPageFaultCount++;
+        break;
+      }
+</code></pre><h4 id="vmc"><a class="anchor hidden-xs" href="#vmc" title="vmc"><span class="octicon octicon-link"></span></a>vm.c</h4><pre><code>void updatePagesForProc(uint va) {
+  int i;
+  for (i = 0; i &lt; MAX_TOTAL_PAGES; i++) {
+    if (!proc-&gt;pages[i].used) {
+      proc-&gt;pages[i].used = 1;
+      proc-&gt;pages[i].virtpageno = va;
+      proc-&gt;pagesNo++;
+      return;
+    }
+  }
+  panic("updatePagesForProc: all pages are used");
+}
+</code></pre><pre><code>  if(proc-&gt;pagesNo &gt;= 15){
+      //page out a page to disk
+      proc-&gt;totalPagedOutCount++;
+    }
+ uint va = PTE_ADDR(mem);
+    updatePagesForProc(va);
+</code></pre><pre><code>void swapPages(uint addr) ;
+</code></pre><h4 id="其他"><a class="anchor hidden-xs" href="#其他" title="其他"><span class="octicon octicon-link"></span></a>其他</h4><h5 id="mpc"><a class="anchor hidden-xs" href="#mpc" title="mpc"><span class="octicon octicon-link"></span></a>mp.c</h5><h5 id="mainc"><a class="anchor hidden-xs" href="#mainc" title="mainc"><span class="octicon octicon-link"></span></a>main.c</h5><h5 id="asmh"><a class="anchor hidden-xs" href="#asmh" title="asmh"><span class="octicon octicon-link"></span></a>asm.h</h5><h5 id="ioapicc"><a class="anchor hidden-xs" href="#ioapicc" title="ioapicc"><span class="octicon octicon-link"></span></a>ioapic.c</h5><h5 id="memlayouth"><a class="anchor hidden-xs" href="#memlayouth" title="memlayouth"><span class="octicon octicon-link"></span></a>memlayout.h</h5><h5 id="picirqc"><a class="anchor hidden-xs" href="#picirqc" title="picirqc"><span class="octicon octicon-link"></span></a>picirq.c</h5><h5 id="stringc"><a class="anchor hidden-xs" href="#stringc" title="stringc"><span class="octicon octicon-link"></span></a>string.c</h5><h5 id="symlinkpatch"><a class="anchor hidden-xs" href="#symlinkpatch" title="symlinkpatch"><span class="octicon octicon-link"></span></a>symlink.patch</h5><h5 id="sysprocc"><a class="anchor hidden-xs" href="#sysprocc" title="sysprocc"><span class="octicon octicon-link"></span></a>sysproc.c</h5><h5 id="timerc"><a class="anchor hidden-xs" href="#timerc" title="timerc"><span class="octicon octicon-link"></span></a>timer.c</h5><h5 id="trapasmS"><a class="anchor hidden-xs" href="#trapasmS" title="trapasmS"><span class="octicon octicon-link"></span></a>trapasm.S</h5><h1 id="🏃-Demo畫面"><a class="anchor hidden-xs" href="#🏃-Demo畫面" title="🏃-Demo畫面"><span class="octicon octicon-link"></span></a>🏃 Demo畫面</h1><p>版本一：將原版xv6進行微調，主要修正defs.h, fs.c, proc.h, sysfile.c的部分，但正當debug的途中遇上以下的error，因為此lock的型態甚為重要，試過lock, lock都不被compiler所接受，於是本組在版本一處停留於此error處，作業三繳交期限前將盡快請教助教、完成修正。</p><pre><code>b10530002@b10530002-VirtualBox:~/xv6-public$ make
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o sysfile.o sysfile.c
+In file included from sysfile.c:14:0:
+file.h:17:20: error: field ‘lock’ has incomplete type
+   struct sleeplock lock; // protects everything below here
+                    ^
+&lt;builtin&gt;: recipe for target 'sysfile.o' failed
+make: * [sysfile.o] Error 1
+b10530002@b10530002-VirtualBox:~/xv6-public$ make
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o sysfile.o sysfile.c
+In file included from sysfile.c:14:0:
+file.h:17:20: error: field ‘lock’ has incomplete type
+   struct sleeplock lock; // protects everything below here
+                    ^
+&lt;builtin&gt;: recipe for target 'sysfile.o' failed
+make: * [sysfile.o] Error 1
+b10530002@b10530002-VirtualBox:~/xv6-public$ ^C
+b10530002@b10530002-VirtualBox:~/xv6-public$
+</code></pre><p><strong><mark>file.h:17:20: error: field ‘lock’ has incomplete type<br>
+struct sleeplock lock; // protects everything below here<br>
+&lt;builtin&gt;: recipe for target ‘sysfile.o’ failed<br>
+make: * [sysfile.o] Error 1</mark></strong></p><p>版本二：本組在版本二上做了大幅度的修正，參考許多前人、網路的心得與改善方案，更正的程式碼請參考上章，在此版本中本組在make, make qemu-nox後，進行了兩種Testing程式碼進行swap功能的驗證</p><ol>
+<li>執行stressfs，發現xv6尚未發生page fault，無須進行swap</li>
+</ol><p><img src="https://i.imgur.com/IJr3VDY.jpg" alt=""></p><p><img src="https://i.imgur.com/uMBiq75.jpg" alt=""></p><ol start="2">
+<li>本組尋獲一組測試xv6中swap功能是否正常運作的測試程式碼，稱作<strong>myMemTest</strong>，以下可得知測試後確實發生Page Fault，透過本組設計的監控系統，能即時得知Page Fault當下的數目、以及swap前後的狀況分析，最後呈現當Page Fault皆完成swap後記憶體回到free的狀態。</li>
+</ol><p><img src="https://i.imgur.com/CblCkhD.jpg" alt=""></p><p><img src="https://i.imgur.com/qhdpfXS.jpg" alt=""></p><pre class="flow-chart"><svg height="1086.38671875" version="1.1" width="439.234375" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; top: -0.25px;" viewBox="0 0 439.234375 1086.38671875" preserveAspectRatio="meet"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endblock33" markerHeight="3" markerWidth="3" orient="auto" refX="1.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-block" transform="rotate(180 1.5 1.5) scale(0.6,0.6)" stroke-width="1.6667" fill="black" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker></defs><rect x="0" y="0" width="183.71875" height="38.390625" r="20" rx="20" ry="20" fill="none" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="st" transform="matrix(1,0,0,1,116.2578,86.8633)"></rect><text x="10" y="19.1953125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="stt" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,116.2578,86.8633)" stroke-width="1"><tspan dy="5.21875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">執行測試檔myMemTest</tspan></text><rect x="0" y="0" width="116.375" height="38.390625" r="0" rx="0" ry="0" fill="none" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op" transform="matrix(1,0,0,1,149.9297,262.1172)"></rect><text x="10" y="19.1953125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="opt" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,149.9297,262.1172)" stroke-width="1"><tspan dy="5.21875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">process執行</tspan></text><rect x="0" y="0" width="143.8125" height="38.390625" r="0" rx="0" ry="0" fill="none" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op2" transform="matrix(1,0,0,1,136.2109,437.3711)"></rect><text x="10" y="19.1953125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="op2t" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,136.2109,437.3711)" stroke-width="1"><tspan dy="5.21875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">發生Page Fault</tspan></text><rect x="0" y="0" width="149.078125" height="38.390625" r="0" rx="0" ry="0" fill="none" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="op3" transform="matrix(1,0,0,1,133.5781,612.625)"></rect><text x="10" y="19.1953125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="op3t" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,133.5781,612.625)" stroke-width="1"><tspan dy="5.21875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">xv6自動進行swap</tspan></text><path fill="none" stroke="#000000" d="M102.05859375,51.029296875L0,102.05859375L204.1171875,204.1171875L408.234375,102.05859375L204.1171875,0L0,102.05859375" stroke-width="2" font-family="'Andale Mono', monospace" id="cond" class="flowchart" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;" transform="matrix(1,0,0,1,4,705.0156)"></path><text x="107.05859375" y="102.05859375" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="condt" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,4,705.0156)" stroke-width="1"><tspan dy="5.20703125" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">是否完成釋放99%的free memory</tspan></text><rect x="0" y="0" width="183.140625" height="38.390625" r="20" rx="20" ry="20" fill="none" stroke="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="2" class="flowchart" id="e" transform="matrix(1,0,0,1,116.5469,1045.9961)"></rect><text x="10" y="19.1953125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" id="et" class="flowchartt" font-size="16px" font-family="'Andale Mono', monospace" transform="matrix(1,0,0,1,116.5469,1045.9961)" stroke-width="1"><tspan dy="5.21875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">回到待命等待指令狀態</tspan></text><path fill="none" stroke="#000000" d="M208.1171875,125.25390625C208.1171875,125.25390625,208.1171875,239.05547903035767,208.1171875,259.1152289198641" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><path fill="none" stroke="#000000" d="M208.1171875,300.5078125C208.1171875,300.5078125,208.1171875,414.3093852803577,208.1171875,434.3691351698641" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><path fill="none" stroke="#000000" d="M208.1171875,475.76171875C208.1171875,475.76171875,208.1171875,589.5632915303577,208.1171875,609.6230414198641" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><path fill="none" stroke="#000000" d="M208.1171875,651.015625C208.1171875,651.015625,208.1171875,690.6697249412537,208.1171875,702.0160640846007" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><path fill="none" stroke="#000000" d="M208.1171875,909.1328125C208.1171875,909.1328125,208.1171875,1022.9343852803577,208.1171875,1042.994135169864" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><text x="213.1171875" y="919.1328125" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" font-size="16px" font-family="'Andale Mono', monospace" stroke-width="1"><tspan dy="5.6171875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">yes</tspan></text><path fill="none" stroke="#000000" d="M412.234375,807.07421875C412.234375,807.07421875,437.234375,807.07421875,437.234375,807.07421875C437.234375,807.07421875,437.234375,587.625,437.234375,587.625C437.234375,587.625,208.1171875,587.625,208.1171875,587.625C208.1171875,587.625,208.1171875,602.9984445571899,208.1171875,609.6342477742583" stroke-width="2" marker-end="url(#raphael-marker-endblock33)" font-family="'Andale Mono', monospace" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &quot;Andale Mono&quot;, monospace;"></path><text x="417.234375" y="797.07421875" text-anchor="start" font="10px &quot;Arial&quot;" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font: 16px &quot;Andale Mono&quot;, monospace;" font-size="16px" font-family="'Andale Mono', monospace" stroke-width="1"><tspan dy="5.60546875" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">no</tspan></text></svg></pre><hr><h1 id="🐻-預期成效、情境說明（怎麼用、誰用）"><a class="anchor hidden-xs" href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻-預期成效、情境說明（怎麼用、誰用）"><span class="octicon octicon-link"></span></a>🐻 預期成效、情境說明（怎麼用、誰用）</h1><br><p>當 CPU 效能低時，系統會想引入更多的 process 讓 CPU 盡可能地工作。但當存有太多 process 時，大部分的工作將會花費在 page fault 造成的 Page Replacement，致使 CPU 效率下降，最後造成 CPU 的效能越來越低。除了降低 Multiprogramming Degree和利用 Working Set Model “預估 ” ，利用 Page Fault Frequency (Ratio) 控制來防止 Thrashing也是解法之一。</p><ul>
+<li>
+<p>預期能使Xv6的Page Table減少 Page Fault損失，避免Thrashing的發生，降低Access Disk的時長，改善Xv6對Page Fault的處置效率。</p>
+</li>
+<li>
+<p>作業二已經實作了swap，我們希望在接下來的作業三中，可以用locality的角度加強swap的效能。當發生Page Fault需要前往Disk搜尋缺乏的Page時，透過我們這組設定的特殊Swap功能—Spatial Locality，將預期會使用到的後3個Page順道Swap In，示意圖如下：<br>
+<br><br>
+<img src="https://i.imgur.com/gtvSZQU.jpg" alt="alt text" title="Spatial Locality 示意圖"><br>
+<br></p>
+</li>
+<li>
+<p>修改FIFO算法，其建立在FIFO的基礎上，每次swap的时候不止抓取一个page，也把它附近的page抓进来。分成三部分，最上層的API，FIFO和SWAP。</p>
+</li>
+<li>
+<p>API是用戶引發使用和觀察這一功能的界面。控制層用於管理swap的使用，我們使用FIFO決定4個victim page。當window 滿了的時候，就引發swap，在這一過程中，FIFO算法會把最先進來的4個page置換出去。在最底層我們建立swap的功能，當物理內存不足時，拿出部分硬盤空間當SWAP分區（虛擬成內存）使用，從而解決內存容量不足的情況。當某進程向OS請求內存發現不足時，OS會把內存中暫時不用的數據（這裡設定為最先進來的四個page交換出去，放在SWAP分區中（SWAP OUT）。當某進程又需要這些數據且OS發現還有空閒物理內存時，又會把SWAP分區中的四個page交換回物理內存中（SWAP IN）。</p>
+</li>
+<li>
+<p>修改Swap的程式碼，設定發生Page Fault後選擇最先進來的4個Victim Page進行Swap Out3.在硬碟搜尋欠缺的Page，又因<mark>Spacial Locality</mark>的特性，命令Swap In時擷取所需Page以外的的後三個Page4.回傳完成Swap的指令，結束Page Fault的Swap程序。</p>
+</li>
+<li>
+<p>用戶發現自己的process locality很強，就可以運用這一功能防止崩潰。</p>
+</li>
+</ul><hr><h1 id="👨‍👦‍👦-組員分工"><a class="anchor hidden-xs" href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦-組員分工"><span class="octicon octicon-link"></span></a>👨‍👦‍👦 組員分工</h1><hr><p>王潔：API部分，報告撰寫，查找資料，參與討論<br>
+彭傑：swap部分，參與討論，查找資料，報告修正，程式demo<br>
+敬傑：swap部分，參與討論，查找資料，報告修正</p><p>參考資料：<br>
+[1]<a href="https://www.cs.bgu.ac.il/~os162/wiki.files/Operating%20Systems%20-%20assignment%203%202016%5B4%5D.pdf" target="_blank" rel="noopener">https://www.cs.bgu.ac.il/~os162/wiki.files/Operating Systems - assignment 3 2016[4].pdf</a><br>
+[2]<a href="https://github.com/asafch/xv6-paging" target="_blank" rel="noopener">https://github.com/asafch/xv6-paging</a><br>
+[3]<a href="http://cse.csusb.edu/tongyu/courses/cs460/labs/lab9.php" target="_blank" rel="noopener">http://cse.csusb.edu/tongyu/courses/cs460/labs/lab9.php</a><br>
+[4]<a href="https://github.com/mit-pdos/xv6-public" target="_blank" rel="noopener">https://github.com/mit-pdos/xv6-public</a><br>
+[5]<a href="https://github.com/TutuuXY/xv6/blob/master/rpc/fifo.h" target="_blank" rel="noopener">https://github.com/TutuuXY/xv6/blob/master/rpc/fifo.h</a><br>
+[6]<a href="http://mail.tsu.edu.tw/~hjsin/courses/OS/Chap7.pdf" target="_blank" rel="noopener">http://mail.tsu.edu.tw/~hjsin/courses/OS/Chap7.pdf</a><br>
+[7]<a href="https://github.com/shradhash/implementing-virtual-memory-system-calls-to-xv6/tree/master/stage2" target="_blank" rel="noopener">https://github.com/shradhash/implementing-virtual-memory-system-calls-to-xv6/tree/master/stage2</a><br>
+[8]<a href="https://www.youtube.com/watch?v=K9aTB48w7ew" target="_blank" rel="noopener">https://www.youtube.com/watch?v=K9aTB48w7ew</a></p><div dir="ltr" class="resize-sensor" style="position: absolute; left: -10px; top: -10px; right: 0px; bottom: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
+<li><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a></li>
+<li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
+<li><a href="#實作流程概述" title="實作流程概述">實作流程概述</a><ul class="nav">
+<li><a href="#一、swap框架" title="一、swap框架">一、swap框架</a></li>
+<li><a href="#二、控制swap的執行" title="二、控制swap的執行">二、控制swap的執行</a></li>
+<li><a href="#三、測試和執行" title="三、測試和執行">三、測試和執行</a></li>
+</ul>
+</li>
+<li class=""><a href="#修改新增檔案" title="修改/新增檔案">修改/新增檔案</a></li>
+</ul>
+</li>
+<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
+<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav">
+<li><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
+<li><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a></li>
+<li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
+<li><a href="#實作流程概述" title="實作流程概述">實作流程概述</a><ul class="nav">
+<li><a href="#一、swap框架" title="一、swap框架">一、swap框架</a></li>
+<li><a href="#二、控制swap的執行" title="二、控制swap的執行">二、控制swap的執行</a></li>
+<li><a href="#三、測試和執行" title="三、測試和執行">三、測試和執行</a></li>
+</ul>
+</li>
+<li class=""><a href="#修改新增檔案" title="修改/新增檔案">修改/新增檔案</a></li>
+</ul>
+</li>
+<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
+<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
