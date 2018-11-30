@@ -1,1 +1,769 @@
-homework not found!!
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        107 OS homework 2 實作System Call - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:contain}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled"><h1 id="107-OS-homework-2-實作System-Call"><a class="anchor hidden-xs" href="#107-OS-homework-2-實作System-Call" title="107-OS-homework-2-實作System-Call"><span class="octicon octicon-link"></span></a>107 OS homework 2 實作System Call</h1><blockquote>
+<p>組長：B10530006 汪子惟<br>
+github: <a href="https://github.com/WillyWang0818/xv6-public" target="_blank" rel="noopener">https://github.com/WillyWang0818/xv6-public</a></p>
+<p>組員：B10530030 謝宇庭<br>
+github: <a href="https://github.com/tyhgf548952/xv6-public" target="_blank" rel="noopener">https://github.com/tyhgf548952/xv6-public</a></p>
+</blockquote><hr><h1 id="🤔-功能說明"><a class="anchor hidden-xs" href="#🤔-功能說明" title="🤔-功能說明"><span class="octicon octicon-link"></span></a>🤔 功能說明</h1><p>當我們想在圖像處理，動畫渲染或Web伺服器等一些程序中利用CPU的所有threads時，我們可以使用multi-threaded program來實現。</p><p>為了演示如何使用multi-threaded program，我們將通過以下情況編寫一個multi-threaded counter。</p><h2 id="First-Case"><a class="anchor hidden-xs" href="#First-Case" title="First-Case"><span class="octicon octicon-link"></span></a>First Case</h2><p>首先，我們先 create 一個全域變數 <code>g_counter</code> 作為所有 thread 的counter。 <code>g_counter</code> 應該先初始化為0。</p><p>然後我們可以開始 create thread 來增加 <code>g_counter</code> 的數量。 對於每個 thread, 我們需要 4KB 記憶體作為函數的 stack and argument。 我們使用 <code>(void *)malloc(4096)</code> 從heap分配 <code>(int *)malloc(4)</code> 每 4 byte 為一個 argument。</p><p>我們還需要一個執行計算的函數 <code>void counter(void *args)</code>。 在 <code>counter()</code> 中， 我們用 for迴圈 來增加 <code>g_counter</code> 5000次。 我們決定使用8個 thread 來執行 <code>counter()</code>. 因此，在程式結束時， <code>g_counter</code> 會變成 8 * 5000 = 40000。 我們可以定義一個變數 <code>final_target</code> 去檢查 <code>g_counter</code> 的結果。</p><p>最後，我們可以使用 <code>clone()</code> 去 create 和啟動所有 thread 以及 <code>join()</code> 去等待所有 thread。</p><p>multi-threaded counter 的結構應該如下：</p><pre><code>#define NUM_THREADS 8
+#define TARGET_COUNT_PER_THREAD 5000
+
+int g_counter;
+
+void counter(void *arg)
+{
+  for(int i = 0; i &lt; TARGET_COUNT_PER_THREAD; i++){
+    g_counter = g_counter + 1;
+  }
+  exit();
+}
+
+int main(int argc, char **argv)
+{
+  int final_target = NUM_THREADS * TARGET_COUNT_PER_THREAD;
+  g_counter = 0;
+
+  void *stacks[NUM_THREADS];
+  int *args[NUM_THREADS];
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    stacks[i] = (void*) malloc(4096);
+    args[i] = (int*) malloc(4);
+    *args[i] = i;
+  }
+
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    clone(counter, args[i], stacks[i]);
+  }
+
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    void *joinstack;
+    join(&amp;joinstack);
+  } 
+
+  printf(1, "g_counter is %d\n", g_counter);
+  printf(1, "final_target is %d\n", final_target);
+  if(g_counter == final_target)
+    printf(1, "TEST PASSED!\n");
+  else
+    printf(1, "TEST FAILED!\n");
+
+  exit();
+}
+</code></pre><p>當執行程式後，我們會得到：</p><pre><code>g_counter is 40000
+final_target is 40000
+TEST PASSED!
+</code></pre><h2 id="Second-Case"><a class="anchor hidden-xs" href="#Second-Case" title="Second-Case"><span class="octicon octicon-link"></span></a>Second Case</h2><p><strong>永遠要考慮 worst case!</strong></p><p>如果我們不只是在 for迴圈 執行 <code>g_counter = g_counter + 1</code>。 我們可以用以下代碼：</p><pre><code>void counter(void *arg)
+{
+  for(int i = 0; i &lt; TARGET_COUNT_PER_THREAD; i++){
+    int temp = g_counter;
+    temp = temp + 1;
+    sleep(0);
+    g_counter = temp;
+  }
+  exit();
+}
+</code></pre><p>做同樣的事情但以更複雜的方式，我們得到結果：</p><pre><code>g_counter is 9730
+final_target is 40000
+TEST FAILED!
+</code></pre><p>這就是 race condition</p><h2 id="Race-Condition"><a class="anchor hidden-xs" href="#Race-Condition" title="Race-Condition"><span class="octicon octicon-link"></span></a>Race Condition</h2><p>我們發現在第一種情況下沒有 race condition 的原因是 compiler 很聰明地將這些代碼簡化為一行 assembly。簡化的方法是：</p><pre><code>for(int i = 0; i &lt; TARGET_COUNT_PER_THREAD; i++){
+    g_counter = g_counter + 1;
+}
+</code></pre><p>↓</p><pre><code>for(int i = 0; i &lt; 5000; i++){
+    g_counter = g_counter + 1;
+}
+</code></pre><p>↓</p><pre><code>g_counter = g_counter + 5000;
+</code></pre><p>↓</p><pre><code>addl   $0x1388,0xb00    ;0x1388 == 5000, &amp;g_counter == 0xb00
+</code></pre><p>單行 assembly 是 atomic。 所以不會出現 race condition。</p><p>但是，compiler 無法簡化第二種情況，這會導致 race condition。為了避免 race condition，我們需要使用 semaphore 來創建一個 critical section。</p><h2 id="Semaphore"><a class="anchor hidden-xs" href="#Semaphore" title="Semaphore"><span class="octicon octicon-link"></span></a>Semaphore</h2><p>為了實作 semaphore 的所有功能，我們實作了 <code>sem_init()</code>, <code>sem_destroy()</code>, <code>sem_wait()</code> and <code>sem_signal()</code> 四種 system call.</p><ul>
+<li><code>sem_init()</code> 初始化 semaphore 的 size 跟 id。</li>
+<li><code>sem_destroy()</code> 刪除目標的 semaphore。</li>
+<li><code>sem_wait()</code> 等待資源的一個單元變為可用，並按給定的值減少 semaphore 的值。</li>
+<li><code>sem_signal()</code> 依據給定的值增加 semaphore 的值。</li>
+</ul><p>最後，我們可以在 multi-threaded counter 中使用 semaphore。</p><h2 id="Final-Case"><a class="anchor hidden-xs" href="#Final-Case" title="Final-Case"><span class="octicon octicon-link"></span></a>Final Case</h2><p>首先，我們使用 <code>sem_init()</code> 初始化 semaphore 的值。 因為一次只有一個 thread 可以 access <code>g_counter</code>，所以 <code>sem_size</code> 應為 1。 我們還要將 semaphore 的 id 設為 <code>SEMAPHORE_NUM</code>。</p><p>在 for迴圈 的 <code>counter()</code> 中，我們可以將實際的 code 放在 <code>sem_wait()</code> 和 <code>sem_signal()</code> 之間，去 create critical section。</p><p>完成所有計算後，我們使用 <code>sem_destroy()</code> 去刪除 semaphore。</p><p>Final Case 的結構應該是：</p><pre><code>#define NUM_THREADS 8
+#define TARGET_COUNT_PER_THREAD 5000
+#define SEMAPHORE_NUM 0
+
+int g_counter;
+
+void counter(void *arg)
+{
+  for(int i = 0; i &lt; TARGET_COUNT_PER_THREAD; i++){
+    sem_wait(SEMAPHORE_NUM, 1);
+    int temp = g_counter;
+    temp = temp + 1;
+    sleep(0);
+    g_counter = temp;
+    sem_signal(SEMAPHORE_NUM, 1);
+  }
+  exit();
+}
+
+int main(int argc, char **argv)
+{
+  int sem_size = 1;
+  int final_target = NUM_THREADS * TARGET_COUNT_PER_THREAD;
+  g_counter = 0;
+  
+  sem_init(SEMAPHORE_NUM, sem_size);
+
+  void *stacks[NUM_THREADS];
+  int *args[NUM_THREADS];
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    stacks[i] = (void*) malloc(4096);
+    args[i] = (int*) malloc(4);
+    *args[i] = i;
+  }
+
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    clone(counter, args[i], stacks[i]);
+  }
+
+  for(int i = 0; i &lt; NUM_THREADS; i++){
+    void *joinstack;
+    join(&amp;joinstack);
+  } 
+
+  printf(1, "g_counter is %d\n", g_counter);
+  printf(1, "final_target is %d\n", final_target);
+  if(g_counter == final_target)
+    printf(1, "TEST PASSED!\n");
+  else
+    printf(1, "TEST FAILED!\n");
+    
+  sem_destroy(SEMAPHORE_NUM);
+
+  exit();
+}
+</code></pre><h2 id="Flow"><a class="anchor hidden-xs" href="#Flow" title="Flow"><span class="octicon octicon-link"></span></a>Flow</h2><p>我們可以用兩個簡單的流程圖來總結 multi-threaded counter 的流程。</p><p>第一個是主要功能，它做五件事：</p><ul>
+<li>初始化 counter, semaphore, stack and arguments。</li>
+<li>Create 所有 threads.</li>
+<li>Join 所有 threads.</li>
+<li>驗證 counter 的正確性。</li>
+<li>Destroy semaphore</li>
+</ul><p><img src="https://i.imgur.com/h9qrlTi.png" alt=""></p><p>第二個是 <code>counter()</code>，它在 for迴圈 中 create critical section。</p><p><img src="https://i.imgur.com/CpnbUOs.png" alt=""></p><h1 id="😇-實作過程修改哪些檔案含圖片"><a class="anchor hidden-xs" href="#😇-實作過程修改哪些檔案含圖片" title="😇-實作過程修改哪些檔案含圖片"><span class="octicon octicon-link"></span></a>😇 實作過程(修改哪些檔案[含圖片])</h1><p>我們將實作的過程分成兩個部分，一個是semaphore，一個是thread。</p><h2 id="Semaphore1"><a class="anchor hidden-xs" href="#Semaphore1" title="Semaphore1"><span class="octicon octicon-link"></span></a>Semaphore</h2><p>In <code>defs.h</code>, 加入system call prototype.</p><pre><code> struct semaphore
+ 
+ //semaphore.c
+ void            seminit(void);
+ int             sem_init(int, int);
+ int             sem_destroy(int);
+ int             sem_wait(int, int);
+ int             sem_signal(int, int);
+</code></pre><p>我們在<code>semaphore.c</code>中實作所有semaphore system calls, 包括sem_init(), sem_destroy(), sem_wait() 和 sem_signal().</p><pre><code>#include "types.h"
+#include "x86.h"
+#include "defs.h"
+#include "param.h"
+#include "spinlock.h"
+
+#define SEMNUM 32
+
+struct semaphore {
+  int value;
+  int active;
+  struct spinlock lock;
+} sem[SEMNUM];
+
+//initiallize the semophore table
+void
+seminit(void)
+{
+  for(int i = 0; i &lt; SEMNUM; ++i) {
+    initlock(&amp;sem[i].lock, "semaphore");
+    sem[i].active = sem[i].value = 0;
+  }
+}
+
+int
+sem_init(int num, int max)
+{
+  //check if the entry is valid
+  if(num &lt; 0 || num &gt;= SEMNUM) return -1;
+
+  acquire(&amp;sem[num].lock);
+  // check if the entry is actived
+  if(sem[num].active != 0) return -1;
+  sem[num].value = max;
+  sem[num].active = 1;
+  release(&amp;sem[num].lock);
+
+  return 0;
+}
+
+int
+sem_destroy(int num)
+{
+  // check if the entry is valid
+  if(num &lt; 0 || num &gt;= SEMNUM) return -1;
+
+  acquire(&amp;sem[num].lock);
+  // check if the entry is actived
+  if(sem[num].active != 1) return -1;
+  sem[num].active = 0;
+  release(&amp;sem[num].lock);
+
+  return 0;
+}
+
+int
+sem_wait(int num, int count)
+{
+  // check if  valid
+  if(num &lt; 0 || num &gt;= SEMNUM) return -1;
+
+  acquire(&amp;sem[num].lock);
+  // check if active
+  if(!sem[num].active) return -1;
+  // if there is no enough lock, sleep
+  while(sem[num].value &lt;= count - 1) {
+    sleep(&amp;sem[num], &amp;sem[num].lock);
+  }
+  sem[num].value -= count;
+  release(&amp;sem[num].lock);
+
+  return 0;
+}
+
+int
+sem_signal(int num, int count)
+{
+  // check if the entry is valid
+  if(num &lt; 0 || num &gt;= SEMNUM) return -1;
+
+  acquire(&amp;sem[num].lock);
+  // check if the entry is actived
+  if(!sem[num].active) return -1;
+  // the thread exit the critical section, return a lock
+  sem[num].value += count;
+  // if there is any available lock, call wakeup
+  if(sem[num].value &gt; 0){
+    wakeup(&amp;sem[num]);
+  }
+  release(&amp;sem[num].lock);
+
+  return 0;
+}
+</code></pre><p>In <code>syscall.h</code>, we add some system call numbers.</p><pre><code>#define SYS_sem_init    22
+#define SYS_sem_destroy 23
+#define SYS_sem_wait    24
+#define SYS_sem_signal  25
+</code></pre><p>In <code>syscall.c</code>, we add system call wrapper prototype for semaphore.</p><pre><code>extern int sys_sem_init(void);
+extern int sys_sem_destroy(void);
+extern int sys_sem_wait(void);
+extern int sys_sem_signal(void);
+
+
+static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+ .
+ .
+ .
+ .
+ [SYS_sem_init]     sys_sem_init,
+ [SYS_sem_destroy]  sys_sem_destroy,
+ [SYS_sem_wait]     sys_sem_wait,
+ [SYS_sem_signal]   sys_sem_signal;
+};
+
+</code></pre><p>In <code>sysproc.c</code>, we implement system call wrapper for semaphore.</p><pre><code>int
+sys_sem_init(void)
+{
+  int num, max;
+  if(argint(0, &amp;num) &lt; 0) return -1;
+  if(argint(1, &amp;max) &lt; 0) return -1;
+
+  return sem_init(num, max);
+}
+
+int
+sys_sem_destroy(void)
+{
+  int num;
+  if(argint(0, &amp;num) &lt; 0) return -1;
+
+  return sem_destroy(num);
+}
+
+int
+sys_sem_wait(void)
+{
+  int num, count;
+  if(argint(0, &amp;num) &lt; 0) return -1;
+  if(argint(1, &amp;count) &lt; 0) return -1;
+
+  return sem_wait(num, count);
+}
+
+int
+sys_sem_signal(void)
+{
+  int num, count;
+  if(argint(0, &amp;num) &lt; 0) return -1;
+  if(argint(1, &amp;count) &lt; 0) return -1;
+
+  return sem_signal(num, count);
+}
+</code></pre><p>In <code>user.h</code>, we add system call prototype for user program.</p><pre><code>int sem_init(int, int);
+int sem_destroy(int);
+int sem_wait(int, int);
+int sem_signal(int, int);
+</code></pre><p>In <code>usys.S</code>, we add system calls to system call table.</p><pre><code>SYSCALL(sem_init)
+SYSCALL(sem_destroy)
+SYSCALL(sem_wait)
+SYSCALL(sem_signal)
+</code></pre><p>In<code>main.c</code>, we add seminit() to initialize semaphore table.</p><pre><code>int
+main(void)
+{
+ ...
+ seminit();       // semaphore table
+ ...
+}
+</code></pre><h2 id="Thread"><a class="anchor hidden-xs" href="#Thread" title="Thread"><span class="octicon octicon-link"></span></a>Thread</h2><p>In <code>defs.h</code>, 加入system call prototype到<code>proc.c</code></p><pre><code>//proc.c
+...
+int             clone(void*, void*, void*);
+int             join(void**);
+
+</code></pre><p>In <code>proc.h</code>, we add some variables in struct <code>proc</code>.</p><pre><code>struct proc {
+ .
+ .
+ .
+ int isthread;                // Is thread or not
+ int stack;                   // thread's stack address
+};
+</code></pre><p>In <code>proc.c</code>,我們實作所有thread system call, <code>clone()</code> and <code>join()</code>.<br>
+還更改了一下<code>exit()</code>.</p><pre><code>exit(void)
+for(p = ptable.proc; p &lt; &amp;ptable.proc[NPROC]; p++){
+     if(p-&gt;parent == curproc){
+       p-&gt;parent = initproc;
+      // clean up the kernel stack of child threads
+      if(p-&gt;isthread == 1){
+        p-&gt;state = UNUSED;
+        kfree(p-&gt;kstack);
+        p-&gt;kstack = 0;
+      }
+       if(p-&gt;state == ZOMBIE)
+         wakeup1(initproc);
+     }
+     
+int
+clone(void* function, void *arg, void *stack)
+{
+  int i, pid;
+  struct proc *np;
+  struct proc *curproc = myproc();
+
+  // Allocate process.
+  if((np = allocproc()) == 0){
+    return -1;
+  }
+
+  // Copy process state from proc.
+  //if((np-&gt;pgdir = copyuvm(curproc-&gt;pgdir, curproc-&gt;sz)) == 0){
+  //  kfree(np-&gt;kstack);
+  //  np-&gt;kstack = 0;
+  //  np-&gt;state = UNUSED;
+  //  return -1;
+  //}
+
+  np-&gt;sz = curproc-&gt;sz;
+  //np-&gt;parent = curproc;
+  // if the process calling clone is itself a thread,
+  // copy its parent to the new thread
+  if(curproc-&gt;isthread == 0){
+    np-&gt;parent = curproc;
+  }
+  else{
+    np-&gt;parent = curproc-&gt;parent;
+  }
+  *np-&gt;tf = *curproc-&gt;tf;
+
+  // Clear %eax so that fork returns 0 in the child.
+  np-&gt;tf-&gt;eax = 0;
+
+  // reallocate old process's page table to new process
+  np-&gt;pgdir = curproc-&gt;pgdir;
+
+  // modified the return ip to thread function
+  np-&gt;tf-&gt;eip = (int)function;
+
+  // modified the return ip to thread function
+  np-&gt;isthread = 1;
+
+  // modified the stack
+  np-&gt;stack = (int)stack;
+  np-&gt;tf-&gt;esp = (int)stack + 4092;
+  *((int *)(np-&gt;tf-&gt;esp)) = (int)arg; // push the argument
+  *((int *)(np-&gt;tf-&gt;esp - 4)) = 0xFFFFFFFF; // push the return address
+  np-&gt;tf-&gt;esp -= 4;
+
+  for(i = 0; i &lt; NOFILE; i++)
+    if(curproc-&gt;ofile[i])
+      np-&gt;ofile[i] = filedup(curproc-&gt;ofile[i]);
+  np-&gt;cwd = idup(curproc-&gt;cwd);
+
+  safestrcpy(np-&gt;name, curproc-&gt;name, sizeof(curproc-&gt;name));
+
+  pid = np-&gt;pid;
+
+  acquire(&amp;ptable.lock);
+
+  np-&gt;state = RUNNABLE;
+
+  release(&amp;ptable.lock);
+
+  return pid;
+}
+
+int
+join(void **stack)
+{
+  struct proc *p;
+  int havekids, pid;
+  struct proc *curproc = myproc();
+  
+  acquire(&amp;ptable.lock);
+  for(;;){
+    // Scan through table looking for exited children.
+    havekids = 0;
+    for(p = ptable.proc; p &lt; &amp;ptable.proc[NPROC]; p++){
+      if(p-&gt;parent != curproc || p-&gt;isthread != 1)
+        continue;
+      havekids = 1;
+      if(p-&gt;state == ZOMBIE){
+        // Found one.
+        pid = p-&gt;pid;
+        kfree(p-&gt;kstack);
+        p-&gt;kstack = 0;
+        p-&gt;pid = 0;
+        p-&gt;parent = 0;
+        p-&gt;name[0] = 0;
+        p-&gt;killed = 0;
+        p-&gt;state = UNUSED;
+        release(&amp;ptable.lock);
+        return pid;
+      }
+    }
+
+    // No point waiting if we don't have any children.
+    if(!havekids || curproc-&gt;killed){
+      release(&amp;ptable.lock);
+      return -1;
+    }
+
+    // Wait for children to exit.  (See wakeup1 call in proc_exit.)
+    sleep(curproc, &amp;ptable.lock);  //DOC: wait-sleep
+    *(int*)stack = curproc-&gt;stack;
+  }
+}   
+</code></pre><p>In <code>syscall.h</code>, we add some system call numbers.</p><pre><code>#define SYS_clone  26
+#define SYS_join   27
+</code></pre><p>In <code>syscall.c</code>, we add system call wrapper prototype for thread.</p><pre><code> extern int sys_clone(void);
+ extern int sys_join(void);
+
+ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+@@ -133,7 +135,9 @@ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+ .
+ .
+ .
+ [SYS_clone]   sys_clone,
+ [SYS_join]   sys_join
+ };
+</code></pre><p>In <code>sysproc.c</code>, we implement system call wrapper for thread.</p><pre><code>int
+sys_clone(void)
+{
+  int function, arg, stack;
+  if(argint(0, &amp;function) &lt; 0) return -1;
+  if(argint(1, &amp;arg) &lt; 0) return -1;
+  if(argint(2, &amp;stack) &lt; 0) return -1;
+
+  return clone((void*)function, (void*)arg, (void*)stack);
+}
+
+int
+sys_join(void)
+{
+  int stack;
+  if(argint(0, &amp;stack) &lt; 0) return -1;
+
+  return join((void**)stack);
+}
+</code></pre><p>In <code>user.h</code>, we add system call prototype for user program.</p><pre><code>int clone(void*, void*, void*);
+int join(void**);
+</code></pre><p>In <code>usys.S</code>, we add system calls to system call table.</p><pre><code>SYSCALL(clone)
+SYSCALL(join)
+</code></pre><hr><h1 id="🏃-Demo畫面"><a class="anchor hidden-xs" href="#🏃-Demo畫面" title="🏃-Demo畫面"><span class="octicon octicon-link"></span></a>🏃 Demo畫面</h1><p>In the final, call threadtest to test all system calls<br>
+<img src="https://i.imgur.com/uJmKbER.jpg" alt=""></p><hr><h1 id="🐻-預期成效、情境說明（怎麼用、誰用）"><a class="anchor hidden-xs" href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻-預期成效、情境說明（怎麼用、誰用）"><span class="octicon octicon-link"></span></a>🐻 預期成效、情境說明（怎麼用、誰用）</h1><h2 id="怎麼用"><a class="anchor hidden-xs" href="#怎麼用" title="怎麼用"><span class="octicon octicon-link"></span></a>怎麼用</h2><p>clone（）的參數是（* func），（void <em>）， arg和</em> stack。因此，在 user space program 中，我們必須 create 這些參數去 call system call。為了測試multi-threaded program，我們可以為每個 child thread create 幾組參數。最後，我們使用 **stack 來等待所有children。</p><p>透過測試程式的結構可以了解如何使用這些系統調用：</p><pre><code>#define THREAD_NUM 8
+
+void *func(void *arg) //create multi-threaded function
+{
+  /* some computing */
+}
+
+int main(int argc, char *argv[])
+{
+  void *stacks[THREAD_NUM]; //create user stacks
+  int *args[THREAD_NUM]; //create arguments
+  
+  for(int i = 0; i &lt; THREAD_NUM; ++i){
+    stacks[i] = (void *)malloc(4096) //allocate memory from heap to use as user stack
+    args[i] = (int *)malloc(sizeof(int));
+  }
+  
+  //start all child threads
+  for(int i = 0; i &lt; THREAD_NUM; ++i){
+    clone(func, args[i], stacks[i]);
+  }
+  
+  //wait for all child threads
+  for(int i = 0; i &lt; THREAD_NUM; ++i){
+    void *jstack;
+    join(&amp;jstack);
+  }
+  printf(1, "It works!\n");
+  exit();
+}
+</code></pre><h2 id="誰用"><a class="anchor hidden-xs" href="#誰用" title="誰用"><span class="octicon octicon-link"></span></a>誰用</h2><p>任何想要充分利用multi-threaded計算能力的人。如圖像處理，動畫或Web伺服器的渲染。</p><hr><h1 id="👨‍👦‍👦-組員分工"><a class="anchor hidden-xs" href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦-組員分工"><span class="octicon octicon-link"></span></a>👨‍👦‍👦 組員分工</h1><p>汪子惟：功能說明、預期成效、情境說明<br>
+謝宇庭：實作的程式、實作過程、Demo畫面</p><hr></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
+<li class=""><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a><ul class="nav">
+<li class=""><a href="#First-Case" title="First Case">First Case</a></li>
+<li class=""><a href="#Second-Case" title="Second Case">Second Case</a></li>
+<li class=""><a href="#Race-Condition" title="Race Condition">Race Condition</a></li>
+<li class=""><a href="#Semaphore" title="Semaphore">Semaphore</a></li>
+<li class=""><a href="#Final-Case" title="Final Case">Final Case</a></li>
+<li class=""><a href="#Flow" title="Flow">Flow</a></li>
+</ul>
+</li>
+<li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
+<li class=""><a href="#Semaphore1" title="Semaphore">Semaphore</a></li>
+<li class=""><a href="#Thread" title="Thread">Thread</a></li>
+</ul>
+</li>
+<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li class=""><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a><ul class="nav">
+<li class=""><a href="#怎麼用" title="怎麼用">怎麼用</a></li>
+<li><a href="#誰用" title="誰用">誰用</a></li>
+</ul>
+</li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
+<li class=""><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a><ul class="nav">
+<li class=""><a href="#First-Case" title="First Case">First Case</a></li>
+<li class=""><a href="#Second-Case" title="Second Case">Second Case</a></li>
+<li class=""><a href="#Race-Condition" title="Race Condition">Race Condition</a></li>
+<li class=""><a href="#Semaphore" title="Semaphore">Semaphore</a></li>
+<li class=""><a href="#Final-Case" title="Final Case">Final Case</a></li>
+<li class=""><a href="#Flow" title="Flow">Flow</a></li>
+</ul>
+</li>
+<li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a><ul class="nav">
+<li class=""><a href="#Semaphore1" title="Semaphore">Semaphore</a></li>
+<li class=""><a href="#Thread" title="Thread">Thread</a></li>
+</ul>
+</li>
+<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li class=""><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a><ul class="nav">
+<li class=""><a href="#怎麼用" title="怎麼用">怎麼用</a></li>
+<li><a href="#誰用" title="誰用">誰用</a></li>
+</ul>
+</li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
