@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div id="doc" class="markdown-body container-fluid comment-enabled"><h1 id="107-OS-homework-2-實作System-Call"><a class="anchor hidden-xs" href="#107-OS-homework-2-實作System-Call" title="107-OS-homework-2-實作System-Call"><span class="octicon octicon-link"></span></a>107 OS homework 2 實作System Call</h1><blockquote>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" style="position: relative;"><h1 id="107-OS-homework-2-實作System-Call"><a class="anchor hidden-xs" href="#107-OS-homework-2-實作System-Call" title="107-OS-homework-2-實作System-Call"><span class="octicon octicon-link"></span></a>107 OS homework 2 實作System Call</h1><blockquote>
 <p>組長：B10532036 陳子揚<br>
 組員：B10532010 顏佑庭<br>
 github: <a href="https://github.com/jj861119/xv6-public" target="_blank" rel="noopener">https://github.com/jj861119/xv6-public</a></p>
@@ -45,7 +45,7 @@ mmap()將文件內容映射到一段記憶體上，通過對這段記憶體的�
 2.新增realloc()，利用原有的malloc讓使用者能重新指派記憶體<br>
 3.新增calloc()，改良原本的malloc讓使用者能初始化記憶體</p><div class="alert alert-info">
 <p>defs.h <img alt=":mega:" class="emoji" src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/mega.png" title=":mega:"></p>
-<h2 id=""><img src="https://i.imgur.com/64xRMTC.jpg" alt=""></h2>
+<hr>
 <h2 id=""><img src="https://i.imgur.com/SCn6PAg.jpg" alt=""></h2>
 <p><img src="https://i.imgur.com/oFBksyA.jpg" alt=""></p>
 </div><div class="alert alert-info">
@@ -59,13 +59,12 @@ mmap()將文件內容映射到一段記憶體上，通過對這段記憶體的�
 <img src="https://i.imgur.com/xvr6bYS.jpg" alt=""></p>
 </div><div class="alert alert-info">
 <p>proc.c <img alt=":mega:" class="emoji" src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/mega.png" title=":mega:"></p>
-<h2 id=""><img src="https://i.imgur.com/eV3WJWT.jpg" alt=""></h2>
-<p><img src="https://i.imgur.com/E1ikTn2.jpg" alt=""><br>
-<img src="https://i.imgur.com/ydDFBck.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/J8I7qlP.jpg" alt=""><br>
+<img src="https://i.imgur.com/4eXXPG0.jpg" alt=""></p>
+<p><a href="http://gur.com/ydDFBck.jpg" target="_blank" rel="noopener">gur.com/ydDFBck.jpg</a>)</p>
 </div><div class="alert alert-info">
-<p>proc.h <img alt=":mega:" class="emoji" src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/mega.png" title=":mega:"></p>
-<h2 id=""><img src="https://i.imgur.com/Ju2SXey.jpg" alt=""></h2>
-<p><img src="https://i.imgur.com/jIkazmF.jpg" alt=""></p>
+<p>proc.h <img alt=":mega:" class="emoji" src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/mega.png" title=":mega:"><br>
+<img src="https://i.imgur.com/hiMKq8S.jpg" alt=""></p>
 </div><div class="alert alert-info">
 <p>syscall.c <img alt=":mega:" class="emoji" src="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/images/basic/mega.png" title=":mega:"><br>
 <img src="https://i.imgur.com/II2wows.jpg" alt=""></p>
@@ -95,7 +94,7 @@ mmap()將文件內容映射到一段記憶體上，通過對這段記憶體的�
 這樣用核心讀寫取代I/O讀寫，以獲得較高的性能。</p><p>一般的I/O機制通常需要將資料先到緩區中。記憶體對映免去了中間這一層，<br>
 加速檔案存取速度。</p><p>process之間也能透過mmap()達到共享記憶體和互相溝通的目的，<br>
 將自己的空間映射到同一個文件，能夠各自對映射區域修改。</p><hr><p>realloc、calloc可以提供程式設計師更有彈性的記憶體操控方法。</p><hr><h1 id="👨‍👦‍👦-組員分工"><a class="anchor hidden-xs" href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦-組員分工"><span class="octicon octicon-link"></span></a>👨‍👦‍👦 組員分工</h1><p>顏佑庭 ： 查資料、實作realloc()、寫構想書<br>
-陳子揚 ： 查資料、實作calloc()和mmap()、寫構想書</p><hr></div>
+陳子揚 ： 查資料、實作calloc()和mmap()、寫構想書</p><hr><div dir="ltr" class="resize-sensor" style="position: absolute; left: -10px; top: -10px; right: 0px; bottom: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: -10px; top: -10px; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
             <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
@@ -105,14 +104,14 @@ mmap()將文件內容映射到一段記憶體上，通過對這段記憶體的�
                 <div class="toc"><ul class="nav">
 <li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
 <li class=""><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a><ul class="nav">
-<li class=""><a href="#實作新的記憶體分配方法" title="實作新的記憶體分配方法">實作新的記憶體分配方法</a></li>
+<li><a href="#實作新的記憶體分配方法" title="實作新的記憶體分配方法">實作新的記憶體分配方法</a></li>
 <li class=""><a href="#新增mmap" title="新增mmap()">新增mmap()</a></li>
 </ul>
 </li>
 <li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a></li>
-<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
 <li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
-<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
             </ul>
@@ -122,14 +121,14 @@ mmap()將文件內容映射到一段記憶體上，通過對這段記憶體的�
         <div class="toc"><ul class="nav">
 <li class=""><a href="#107-OS-homework-2-實作System-Call" title="107 OS homework 2 實作System Call">107 OS homework 2 實作System Call</a></li>
 <li class=""><a href="#🤔-功能說明" title="🤔 功能說明">🤔 功能說明</a><ul class="nav">
-<li class=""><a href="#實作新的記憶體分配方法" title="實作新的記憶體分配方法">實作新的記憶體分配方法</a></li>
+<li><a href="#實作新的記憶體分配方法" title="實作新的記憶體分配方法">實作新的記憶體分配方法</a></li>
 <li class=""><a href="#新增mmap" title="新增mmap()">新增mmap()</a></li>
 </ul>
 </li>
 <li class=""><a href="#😇-實作過程修改哪些檔案含圖片" title="😇 實作過程(修改哪些檔案[含圖片])">😇 實作過程(修改哪些檔案[含圖片])</a></li>
-<li class=""><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
+<li><a href="#🏃-Demo畫面" title="🏃 Demo畫面">🏃 Demo畫面</a></li>
 <li><a href="#🐻-預期成效、情境說明（怎麼用、誰用）" title="🐻 預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</a></li>
-<li><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
+<li class=""><a href="#👨‍👦‍👦-組員分工" title="👨‍👦‍👦 組員分工">👨‍👦‍👦 組員分工</a></li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
