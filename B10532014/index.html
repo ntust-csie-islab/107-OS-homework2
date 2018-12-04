@@ -1,1 +1,130 @@
-homework not found!!
+<div id="doc" class="markdown-body container-fluid comment-enabled"><h1 id="107-OS-homework-2-實作System-Call">107 OS homework 2 實作System Call</h1><blockquote>
+<p>組長：B10532014 王星蘋<br>
+組員：B10515008 賈嬿婷<br>
+github: <a href="https://github.com/hsingpingwang/xv6-public" target="_blank" rel="noopener">https://github.com/hsingpingwang/xv6-public</a></p>
+</blockquote><hr><h1 id="🤔-功能說明">🤔 功能說明</h1><p>clone()使child process可以分享部分的execution context給calling process。</p><hr><h1 id="😇-實作過程修改哪些檔案含圖片">😇 實作過程(修改哪些檔案[含圖片])</h1><h2 id="原有檔案">原有檔案</h2><h3 id="1-syscallh">1.  syscall.h</h3><p>新增system call的define和其數字<br>
+<img src="https://i.imgur.com/WzN4QfH.png" alt=""></p><h3 id="2-defsh">2.  defs.h</h3><p>宣告<br>
+<img src="https://i.imgur.com/P8x9zrC.png" alt=""></p><h3 id="3-userh">3.  user.h</h3><p>加入函式宣告<br>
+<img src="https://i.imgur.com/CS1cGkY.png" alt=""></p><h3 id="4-sysprocc">4.  sysproc.c</h3><p>回傳函式<br>
+<img src="https://i.imgur.com/w9MHyb6.png" alt=""></p><h3 id="5-usysS">5.  usys.S</h3><p>加入新syscall<br>
+<img src="https://i.imgur.com/Rcwsgmo.png" alt=""></p><h3 id="6-syscallc">6.  syscall.c</h3><p>進行 system call 的宣告<br>
+<img src="https://i.imgur.com/tF8Erd1.png" alt=""></p><h3 id="7-procc">7.  proc.c</h3><p>加入<code>clone(void)</code></p><pre><code class="c hljs"><span class="token keyword">int</span>
+<span class="token function">clone</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	uint ustack<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">*</span>fcn<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">void</span> <span class="token operator">*</span>arg<span class="token punctuation">;</span>
+	<span class="token keyword">void</span> <span class="token operator">*</span>stack<span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">argptr</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>fcn<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>fcn<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+		<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">argptr</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>arg<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+			<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">argptr</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>stack<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+			<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">int</span> i<span class="token punctuation">,</span> pid<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> proc <span class="token operator">*</span>np<span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token operator">%</span>PGSIZE<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>proc<span class="token operator">-&gt;</span>sz <span class="token operator">-</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token punctuation">)</span> <span class="token operator">&lt;</span> PGSIZE<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token comment">// Allocate process.</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>np <span class="token operator">=</span> <span class="token function">allocproc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Copy process state from p.</span>
+	np<span class="token operator">-&gt;</span>pgdir <span class="token operator">=</span> proc<span class="token operator">-&gt;</span>pgdir<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>sz <span class="token operator">=</span> proc<span class="token operator">-&gt;</span>sz<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>parent <span class="token operator">=</span> proc<span class="token punctuation">;</span>
+	<span class="token operator">*</span>np<span class="token operator">-&gt;</span>tf <span class="token operator">=</span> <span class="token operator">*</span>proc<span class="token operator">-&gt;</span>tf<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token operator">+</span>PGSIZE<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tstack <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token punctuation">;</span>
+	ustack<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0xffffffff</span><span class="token punctuation">;</span>
+	ustack<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>arg<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp <span class="token operator">-</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token punctuation">;</span>
+	<span class="token function">copyout</span><span class="token punctuation">(</span>np<span class="token operator">-&gt;</span>pgdir<span class="token punctuation">,</span> np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp<span class="token punctuation">,</span> ustack<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	 <span class="token comment">//Clear %eax so that fork returns 0 in the child.</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>eax <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>eip <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>fcn<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>ebp <span class="token operator">=</span> np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp<span class="token punctuation">;</span>
+
+	 <span class="token keyword">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> NOFILE<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+	    <span class="token keyword">if</span><span class="token punctuation">(</span>proc<span class="token operator">-&gt;</span>ofile<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+	      np<span class="token operator">-&gt;</span>ofile<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">filedup</span><span class="token punctuation">(</span>proc<span class="token operator">-&gt;</span>ofile<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>cwd <span class="token operator">=</span> <span class="token function">idup</span><span class="token punctuation">(</span>proc<span class="token operator">-&gt;</span>cwd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	pid <span class="token operator">=</span> np<span class="token operator">-&gt;</span>pid<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>state <span class="token operator">=</span> RUNNABLE<span class="token punctuation">;</span>
+	<span class="token function">safestrcpy</span><span class="token punctuation">(</span>np<span class="token operator">-&gt;</span>name<span class="token punctuation">,</span> proc<span class="token operator">-&gt;</span>name<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>proc<span class="token operator">-&gt;</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> pid<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="新增檔案">新增檔案</h2><h2 id="clonec">clone.c</h2><p>實作clone</p><pre><code class="c hljs"><span class="token comment">/* clone copies file descriptors, but doesn't share */</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"types.h"</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"user.h"</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"fcntl.h"</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"x86.h"</span></span>
+
+<span class="token macro property">#<span class="token directive keyword">undef</span> NULL</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> NULL ((void*)0)</span>
+
+<span class="token macro property">#<span class="token directive keyword">define</span> PGSIZE (4096)</span>
+
+<span class="token keyword">int</span> ppid<span class="token punctuation">;</span>
+<span class="token keyword">volatile</span> uint newfd <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token macro property">#<span class="token directive keyword">define</span> assert(x) if (x) {} else { \
+   printf(1, "%s: %d ", __FILE__, __LINE__); \
+   printf(1, "assert failed (%s)\n", # x); \
+   printf(1, "TEST FAILED\n"); \
+   kill(ppid); \
+   exit(); \
+}</span>
+
+<span class="token keyword">void</span> <span class="token function">worker</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>arg_ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span>
+<span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   ppid <span class="token operator">=</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">void</span> <span class="token operator">*</span>stack <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span>PGSIZE<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">assert</span><span class="token punctuation">(</span>stack <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack <span class="token operator">%</span> PGSIZE<span class="token punctuation">)</span>
+     stack <span class="token operator">=</span> stack <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token number">4096</span> <span class="token operator">-</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack <span class="token operator">%</span> PGSIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token keyword">int</span> fd <span class="token operator">=</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"tmp"</span><span class="token punctuation">,</span> O_WRONLY<span class="token operator">|</span>O_CREATE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">assert</span><span class="token punctuation">(</span>fd <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"stack before = %d\n"</span><span class="token punctuation">,</span><span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">int</span> clone_pid <span class="token operator">=</span> <span class="token function">clone</span><span class="token punctuation">(</span>worker<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> stack<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"clone pid=%d\n"</span><span class="token punctuation">,</span>clone_pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">assert</span><span class="token punctuation">(</span>clone_pid <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>newfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">write</span><span class="token punctuation">(</span>newfd<span class="token punctuation">,</span> <span class="token string">"goodbye\n"</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token function">printf</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"TEST PASSED\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">exit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span>
+<span class="token function">worker</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>arg_ptr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"hello\n"</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">xchg</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>newfd<span class="token punctuation">,</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"tmp2"</span><span class="token punctuation">,</span> O_WRONLY<span class="token operator">|</span>O_CREATE<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">exit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre><hr><h1 id="🏃-Demo畫面">🏃 Demo畫面</h1><p><img src="https://i.imgur.com/fWsp2iW.jpg" alt=""></p><hr><h1 id="🐻-預期成效、情境說明（怎麼用、誰用）">🐻 預期成效、情境說明（怎麼用、誰用）</h1><p>主要用途是implement threads。</p><pre><code class="c hljs"><span class="token comment">// Copy process state from p.</span>
+	np<span class="token operator">-&gt;</span>pgdir <span class="token operator">=</span> proc<span class="token operator">-&gt;</span>pgdir<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>sz <span class="token operator">=</span> proc<span class="token operator">-&gt;</span>sz<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>parent <span class="token operator">=</span> proc<span class="token punctuation">;</span>
+	<span class="token operator">*</span>np<span class="token operator">-&gt;</span>tf <span class="token operator">=</span> <span class="token operator">*</span>proc<span class="token operator">-&gt;</span>tf<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token operator">+</span>PGSIZE<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tstack <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>stack<span class="token punctuation">;</span>
+	ustack<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0xffffffff</span><span class="token punctuation">;</span>
+	ustack<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>uint<span class="token punctuation">)</span>arg<span class="token punctuation">;</span>
+	np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp <span class="token operator">-</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token punctuation">;</span>
+	<span class="token function">copyout</span><span class="token punctuation">(</span>np<span class="token operator">-&gt;</span>pgdir<span class="token punctuation">,</span> np<span class="token operator">-&gt;</span>tf<span class="token operator">-&gt;</span>esp<span class="token punctuation">,</span> ustack<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>由上段程式可見，他會把calling process複製，然後回傳pid。</p><hr><h1 id="👨‍👦‍👦-組員分工">👨‍👦‍👦 組員分工</h1><p>王星蘋：查找資料、程式撰寫與除錯、執行結果、編輯報告<br>
+賈嬿婷：查找資料、程式撰寫與除錯、統整檔案、編輯報告</p><hr></div>
